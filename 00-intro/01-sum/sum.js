@@ -7,4 +7,9 @@
  */
 export function sum(a, b) {
   // Решение
+  if (isNaN(a) || isNaN(b)) {
+    throw new Error('a or b is not a number!');
+  } else {
+    return a + b;
+  }
 }
