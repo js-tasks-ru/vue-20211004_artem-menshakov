@@ -2,6 +2,19 @@ import { createApp, defineComponent } from './vendor/vue.esm-browser.js';
 
 // Создайте Vue приложение
 
+function calculate(operandString, first, second) {
+  switch (operandString) {
+    case 'sum':
+      return first + second;
+    case 'subtract':
+      return first - second;
+    case 'multiply':
+      return first * second;
+    case 'divide':
+      return first / second;
+  }
+}
+
 const AppRoot = defineComponent({
   data: () => ({
     firstValue: 0,
@@ -11,27 +24,12 @@ const AppRoot = defineComponent({
 
   computed: {
     calculated() {
-      const value = this._calculateValue(this.radioValue, +this.firstValue, +this.secondValue);
+      const value = calculate(this.radioValue, this.firstValue, this.secondValue);
 
       if (!isNaN(value)) {
         return value;
       } else {
         return 'Mission impossible';
-      }
-    },
-  },
-
-  methods: {
-    _calculateValue: function (value, first, second) {
-      switch (value) {
-        case 'sum':
-          return first + second;
-        case 'subtract':
-          return first - second;
-        case 'multiply':
-          return first * second;
-        case 'divide':
-          return first / second;
       }
     },
   },

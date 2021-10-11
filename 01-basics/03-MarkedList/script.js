@@ -39,14 +39,8 @@ const RootApp = defineComponent({
 
   computed: {
     filteredEmails() {
-      return this._mapEmails(this.emails, this.searchEmail);
-    },
-  },
-
-  methods: {
-    _mapEmails(emails, searchValue) {
       return emails.map((email) => {
-        if (searchValue && searchValue.length && email.includes(searchValue)) {
+        if (this.searchEmail && this.searchEmail.length && email.includes(this.searchEmail)) {
           return {
             email,
             isMarked: true,
