@@ -7,9 +7,7 @@ export default defineComponent({
 
   computed: {
     bgUrl() {
-      return this.image
-        ? `--bg-url: url(${this.image})`
-        : "--bg-url: url('https://course-vue.javascript.ru/api/images/2')";
+      return this.image ? `--bg-url: url(${this.image})` : '--bg-url';
     },
   },
 
