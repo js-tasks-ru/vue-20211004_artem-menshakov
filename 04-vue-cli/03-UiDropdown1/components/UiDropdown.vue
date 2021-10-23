@@ -10,11 +10,11 @@
       <span>{{ mappedSelectedValue ? mappedSelectedValue.text : title }}</span>
     </button>
 
-    <div v-show="opened" class="dropdown__menu" role="listbox">
-      <select v-show="false" v-model="selectedOption">
-        <option v-for="option in options" :key="option.value" :value="option.value">{{ option.text }}</option>
-      </select>
+    <select v-show="false" v-model="selectedOption">
+      <option v-for="option in options" :key="option.value" :value="option.value">{{ option.text }}</option>
+    </select>
 
+    <div v-show="opened" class="dropdown__menu" role="listbox">
       <button
         v-for="option in options"
         :key="option.value"
