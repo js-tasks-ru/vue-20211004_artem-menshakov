@@ -1,7 +1,7 @@
 <template>
   <div :class="formGroupStyle">
     <!-- form-group_inline -->
-    <label class="form-group__label">{{ label }}</label>
+    <label v-if="label?.length" class="form-group__label">{{ label }}</label>
     <!-- CONTENT -->
     <slot></slot>
   </div>
