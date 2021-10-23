@@ -1,24 +1,60 @@
 <template>
-  <div class="toasts">
-    <div class="toast toast_success">
-      <ui-icon class="toast__icon" icon="check-circle" />
-      <span>Success Toast Example</span>
-    </div>
-
-    <div class="toast toast_error">
-      <ui-icon class="toast__icon" icon="alert-circle" />
-      <span>Error Toast Example</span>
-    </div>
+  <div v-if="toasts.length" class="toasts">
+    <template v-for="(toast, index) in toasts" :key="toast.id">
+      <the-toaster-item :toast="toast" @destroyToast="removeToast(index)"></the-toaster-item>
+    </template>
   </div>
 </template>
 
 <script>
-import UiIcon from './UiIcon';
+import TheToasterItem from './TheToasterItem';
+
+const generateUniqId = () =>
+  Math.floor((1 + Math.random()) * 0x10000)
+    .toString(16)
+    .substring(1);
 
 export default {
   name: 'TheToaster',
+  components: { TheToasterItem },
+  data: () => ({
+    toasts: [],
+  }),
 
-  components: { UiIcon },
+  methods: {
+    success(message, duration) {
+      this.showToast(message, 'success', duration);
+    },
+
+    error(message, duration) {
+      this.showToast(message, 'error', duration);
+    },
+
+    showToast(message = 'default message', type = 'success', duration = 5000) {
+      this.toasts.push({
+        message,
+        type,
+        duration,
+        icon: this.mapToastIcon(type),
+        id: generateUniqId(),
+      });
+    },
+
+    mapToastIcon(type) {
+      switch (type) {
+        case 'success':
+          return 'check-circle';
+        case 'error':
+          return 'alert-circle';
+        default:
+          return 'check-circle';
+      }
+    },
+
+    removeToast(index) {
+      this.toasts.splice(index, 1);
+    },
+  },
 };
 </script>
 
