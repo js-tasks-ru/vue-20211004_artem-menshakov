@@ -1,14 +1,31 @@
 <template>
-  <div class="form-group">
+  <div :class="formGroupStyle">
     <!-- form-group_inline -->
-    <label class="form-group__label">label text</label>
+    <label class="form-group__label">{{ label }}</label>
     <!-- CONTENT -->
+    <slot></slot>
   </div>
 </template>
 
 <script>
 export default {
   name: 'UiFormGroup',
+
+  props: {
+    inline: {
+      type: Boolean,
+      default: false,
+    },
+    label: {
+      type: String,
+    },
+  },
+
+  computed: {
+    formGroupStyle() {
+      return this.inline ? 'form-group_inline' : 'form-group';
+    },
+  },
 };
 </script>
 
