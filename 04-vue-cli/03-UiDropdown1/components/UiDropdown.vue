@@ -1,18 +1,35 @@
 <template>
-  <div class="dropdown dropdown_opened">
-    <button type="button" class="dropdown__toggle dropdown__toggle_icon">
-      <ui-icon icon="tv" class="dropdown__icon" />
-      <span>Title</span>
+  <div class="dropdown" :class="{ dropdown_opened: opened }">
+    <button
+      type="button"
+      class="dropdown__toggle"
+      :class="{ dropdown__toggle_icon: isShowIconPlace }"
+      @click="opened = !opened"
+    >
+      <ui-icon v-if="mappedSelectedValue?.icon" :icon="mappedSelectedValue.icon" class="dropdown__icon" />
+      <span>{{ mappedSelectedValue ? mappedSelectedValue.text : title }}</span>
     </button>
 
-    <div class="dropdown__menu" role="listbox">
-      <button class="dropdown__item dropdown__item_icon" role="option" type="button">
-        <ui-icon icon="tv" class="dropdown__icon" />
-        Option 1
-      </button>
-      <button class="dropdown__item dropdown__item_icon" role="option" type="button">
-        <ui-icon icon="tv" class="dropdown__icon" />
-        Option 2
+    <div v-show="opened" class="dropdown__menu" role="listbox">
+      <select v-show="false" v-model="selectedOption">
+        <option v-for="option in options" :key="option.value" :value="option.value">{{ option.text }}</option>
+      </select>
+
+      <button
+        v-for="option in options"
+        :key="option.value"
+        class="dropdown__item"
+        :class="{ dropdown__item_icon: isShowIconPlace }"
+        role="option"
+        type="button"
+        :value="option.value"
+        @click="
+          selectedOption = option.value;
+          opened = !opened;
+        "
+      >
+        <ui-icon v-if="option.icon" :icon="option.icon" class="dropdown__icon" />
+        {{ option.text }}
       </button>
     </div>
   </div>
@@ -25,6 +42,45 @@ export default {
   name: 'UiDropdown',
 
   components: { UiIcon },
+
+  props: {
+    options: {
+      type: Array,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    modelValue: {
+      type: String,
+    },
+  },
+
+  emits: ['update:modelValue'],
+
+  data: () => ({
+    opened: false,
+  }),
+
+  computed: {
+    selectedOption: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit('update:modelValue', value);
+      },
+    },
+
+    mappedSelectedValue() {
+      return this.options.find((i) => i.value === this.modelValue);
+    },
+
+    isShowIconPlace() {
+      return this.options.find((i) => i.icon);
+    },
+  },
 };
 </script>
 
