@@ -1,6 +1,6 @@
 <template>
   <div class="toast" :class="`toast_${toast.type}`">
-    <ui-icon class="toast__icon" :icon="toast.icon" />
+    <ui-icon class="toast__icon" :icon="toastIcon" />
     <span>{{ toast.message }}</span>
   </div>
 </template>
@@ -13,8 +13,6 @@ export default {
 
   components: { UiIcon },
 
-  timeoutId: null,
-
   props: {
     toast: {
       type: Object,
@@ -24,9 +22,19 @@ export default {
 
   emits: ['destroyToast'],
 
+  data: () => ({
+    timeoutId: null,
+  }),
+
+  computed: {
+    toastIcon() {
+      return this.mapToastIcon(this.toast.type);
+    },
+  },
+
   created() {
     if (this.toast.duration) {
-      this.$options.timeoutId = setTimeout(() => {
+      this.timeoutId = setTimeout(() => {
         this.$emit('destroyToast');
       }, this.toast.duration);
     }
@@ -34,7 +42,20 @@ export default {
 
   beforeUnmount() {
     // console.log('beforeUnmount', this.$options.timeoutId);
-    // clearTimeout(this.$options.timeoutId);
+    clearTimeout(this.timeoutId);
+  },
+
+  methods: {
+    mapToastIcon(type) {
+      switch (type) {
+        case 'success':
+          return 'check-circle';
+        case 'error':
+          return 'alert-circle';
+        default:
+          return 'check-circle';
+      }
+    },
   },
 };
 </script>

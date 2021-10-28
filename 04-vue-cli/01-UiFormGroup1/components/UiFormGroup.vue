@@ -1,5 +1,5 @@
 <template>
-  <div :class="formGroupStyle">
+  <div class="form-group" :class="{ 'form-group_inline': inline }">
     <!-- form-group_inline -->
     <label v-if="label?.length" class="form-group__label">{{ label }}</label>
     <!-- CONTENT -->
@@ -18,12 +18,6 @@ export default {
     },
     label: {
       type: String,
-    },
-  },
-
-  computed: {
-    formGroupStyle() {
-      return this.inline ? 'form-group_inline' : 'form-group';
     },
   },
 };

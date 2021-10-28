@@ -1,8 +1,11 @@
 <template>
   <div v-if="toasts.length" class="toasts">
-    <template v-for="(toast, index) in toasts" :key="toast.id">
-      <the-toaster-item :toast="toast" @destroyToast="removeToast(index)"></the-toaster-item>
-    </template>
+    <the-toaster-item
+      v-for="(toast, index) in toasts"
+      :key="toast.id"
+      :toast="toast"
+      @destroyToast="removeToast(index)"
+    ></the-toaster-item>
   </div>
 </template>
 
@@ -35,20 +38,8 @@ export default {
         message,
         type,
         duration,
-        icon: this.mapToastIcon(type),
         id: generateUniqId(),
       });
-    },
-
-    mapToastIcon(type) {
-      switch (type) {
-        case 'success':
-          return 'check-circle';
-        case 'error':
-          return 'alert-circle';
-        default:
-          return 'check-circle';
-      }
     },
 
     removeToast(index) {
